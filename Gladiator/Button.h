@@ -1,4 +1,3 @@
-#include <SDL.h>
 #ifndef TEX
 #define TEX
 #include "Texture.h"
@@ -14,7 +13,8 @@ enum buttonTex {
 
 class Button {
 	public:
-		Button(int w, int h);
+		Button();
+		Button(int w, int h, int offset);
 		void setPosition(int x, int y);
 		void handleEvent(SDL_Event* e);
 		void render(Texture sheet);
@@ -22,28 +22,41 @@ class Button {
 	private:
 		int width;
 		int height;
+		bool mouseDown = false;
 		SDL_Point pos;
 		buttonTex current;
 		SDL_Rect sprites[BUTTON_SPRITE_TOTAL];
 };
 
-Button::Button(int w, int h) {
+Button::Button() {
+	width = 0;
+	height = 0;
+	pos.x = 0;
+	pos.y = 0;
+	current = BUTTON_SPRITE_MOUSE_OUT;
+}
+
+Button::Button(int w, int h, int offset) {
 	width = w;
 	height = h;
 	pos.x = 0;
 	pos.y = 0;
 	current = BUTTON_SPRITE_MOUSE_OUT;
 
-	for (int i = 0; i < BUTTON_SPRITE_TOTAL; ++i) {
-		sprites[i].x = 0;
+	for (int i = 0; i < BUTTON_SPRITE_TOTAL; i++) {
+		sprites[i].x = offset;
 		sprites[i].y = i * height;
 		sprites[i].w = width;
 		sprites[i].h = height;
 	}
 }
 
-void Button::handleEvent(SDL_Event* e)
-{
+void Button::setPosition(int x, int y) {
+	pos.x = x;
+	pos.y = y;
+}
+
+void Button::handleEvent(SDL_Event* e) {
 	//If mouse event happened
 	if (e->type == SDL_MOUSEMOTION || e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP) {
 		int x, y;
@@ -63,12 +76,16 @@ void Button::handleEvent(SDL_Event* e)
 			//Set mouse over sprite
 			switch (e->type) {
 			case SDL_MOUSEMOTION:
-				current = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+				if (!mouseDown) {
+					current = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
+				mouseDown = true;
 				current = BUTTON_SPRITE_MOUSE_DOWN;
 				break;
 			case SDL_MOUSEBUTTONUP:
+				mouseDown = false;
 				current = BUTTON_SPRITE_MOUSE_UP;
 				break;
 			}
@@ -76,8 +93,6 @@ void Button::handleEvent(SDL_Event* e)
 	}
 }
 
-void Button::render(Texture sheet)
-{
-	//Show current button sprite
+void Button::render(Texture sheet) {
 	sheet.render(pos.x, pos.y, &sprites[current]);
 }

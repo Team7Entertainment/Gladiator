@@ -7,10 +7,9 @@ class Texture {
 		Texture();
 		~Texture();
 
+		void setRenderer(SDL_Renderer* renderObj);
 		void loadFromFile(std::string path);
 		void setColor(Uint8 r, Uint8 b, Uint8 g);
-		void setBlendMode(SDL_BlendMode blending);
-		void setAlpha(Uint8 a);
 		void render(int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 		int getWidth();
@@ -18,7 +17,7 @@ class Texture {
 
 	private:
 		SDL_Texture* tex;
-
+		SDL_Renderer* renderer;
 		int width;
 		int height;
 
@@ -39,6 +38,10 @@ Texture::~Texture() {
 	}
 }
 
+void Texture::setRenderer(SDL_Renderer* renderObj) {
+	renderer = renderObj;
+}
+
 void Texture::loadFromFile(std::string path) {
 	tex = NULL;
 
@@ -51,7 +54,7 @@ void Texture::loadFromFile(std::string path) {
 	SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 
 	//Create texture from surface pixels
-	newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+	newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
 
 	//Get image dimensions
 	width = loadedSurface->w;
@@ -68,8 +71,7 @@ void Texture::setColor(Uint8 r, Uint8 b, Uint8 g) {
 	SDL_SetTextureColorMod(tex, r, g, b);
 }
 
-void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
-{
+void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip) {
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, width, height };
 
@@ -81,5 +83,6 @@ void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cent
 	}
 
 	//Render to screen
-	SDL_RenderCopyEx(gRenderer, tex, clip, &renderQuad, angle, center, flip);
+	SDL_RenderCopyEx(renderer, tex, clip, &renderQuad, angle, center, flip);
+	printf("%d %s\n", tex, SDL_GetError());
 }
