@@ -13,7 +13,7 @@ class MainMenu {
 		void handleMouse(SDL_Event* e);
 
 	private:
-		Texture sheet = Texture();
+		Texture sheet;
 		Button buttons[BUTTON_NUM];
 };
 
@@ -29,7 +29,7 @@ MainMenu::MainMenu(SDL_Renderer* renderer) {
 void MainMenu::update(SDL_Event* e) {
 	handleMouse(e);
 	for (int i = 0; i < BUTTON_NUM; i++) {
-		buttons[i].render(sheet);
+		buttons[i].render(&sheet);
 	}
 }
 

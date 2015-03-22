@@ -6,6 +6,7 @@ class Texture {
 	public:
 		Texture();
 		~Texture();
+		
 
 		void setRenderer(SDL_Renderer* renderObj);
 		void loadFromFile(std::string path);
@@ -24,15 +25,16 @@ class Texture {
 };
 
 Texture::Texture() {
-	tex = NULL;
+	tex = nullptr;
+	renderer = nullptr;
 	width = 0;
 	height = 0;
 }
 
 Texture::~Texture() {
-	if (tex != NULL) {
+	if (tex != nullptr) {
 		SDL_DestroyTexture(tex);
-		tex = NULL;
+		tex = nullptr;
 		width = 0;
 		height = 0;
 	}
@@ -43,9 +45,9 @@ void Texture::setRenderer(SDL_Renderer* renderObj) {
 }
 
 void Texture::loadFromFile(std::string path) {
-	tex = NULL;
+	tex = nullptr;
 
-	SDL_Texture* newTexture = NULL;
+	SDL_Texture* newTexture = nullptr;
 
 	//Load image at specified path
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
@@ -76,7 +78,7 @@ void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cent
 	SDL_Rect renderQuad = { x, y, width, height };
 
 	//Set clip rendering dimensions
-	if (clip != NULL)
+	if (clip != nullptr)
 	{
 		renderQuad.w = clip->w;
 		renderQuad.h = clip->h;
@@ -84,5 +86,4 @@ void Texture::render(int x, int y, SDL_Rect* clip, double angle, SDL_Point* cent
 
 	//Render to screen
 	SDL_RenderCopyEx(renderer, tex, clip, &renderQuad, angle, center, flip);
-	printf("%d %s\n", tex, SDL_GetError());
 }

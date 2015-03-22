@@ -17,7 +17,7 @@ class Button {
 		Button(int w, int h, int offset);
 		void setPosition(int x, int y);
 		void handleEvent(SDL_Event* e);
-		void render(Texture sheet);
+		void render(Texture* sheet);
 
 	private:
 		int width;
@@ -93,6 +93,6 @@ void Button::handleEvent(SDL_Event* e) {
 	}
 }
 
-void Button::render(Texture sheet) {
-	sheet.render(pos.x, pos.y, &sprites[current]);
+void Button::render(Texture* sheet) {
+	sheet->render(pos.x, pos.y, &sprites[current]);
 }
