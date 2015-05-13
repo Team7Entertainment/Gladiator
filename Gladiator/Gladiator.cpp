@@ -1,6 +1,5 @@
-//#include <SDL.h>
-//#include <SDL_image.h>
-#include "MainMenu.h"
+#include "MenuSystem.h"
+#include "GameSystem.h"
 #include <stdio.h>
 #include <windows.h>
 #include <iostream>
@@ -32,7 +31,7 @@ void init() {
 	SDL_Init(SDL_INIT_VIDEO);
 
 	//Create window
-	gWindow = SDL_CreateWindow("Glatiator Pre-Alpha 0.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	gWindow = SDL_CreateWindow("Glatiator Pre-Alpha 0.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
 
 	//Create vsynced renderer for window
 	renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -53,7 +52,8 @@ int main(int argc, char* args[]) {
 	//Start up SDL and create window
 	init();
 
-	MainMenu mainMenu = MainMenu(renderer);
+	MenuSystem menus = MenuSystem(renderer);
+	GameSystem game = GameSystem();
 
 	//Main loop flag
 	bool quit = false;
@@ -69,13 +69,14 @@ int main(int argc, char* args[]) {
 		while (SDL_PollEvent(&e) != 0)
 		{
 			//User requests quit
-			if (e.type == SDL_QUIT)
+			if (e.type == SDL_QUIT || menus.getQuit())
 			{
 				quit = true;
 			}
 		}
 
-		mainMenu.update(&e);
+		menus.update(&e);
+		game.update(&e, menus.getPaused());
 
 		//Update the surface
 		SDL_RenderPresent(renderer);

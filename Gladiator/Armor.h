@@ -1,0 +1,10 @@
+
+
+class Armor {
+	public:
+
+
+	private:
+
+
+};
