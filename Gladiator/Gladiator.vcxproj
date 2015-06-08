@@ -69,14 +69,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AI.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="GameSystem.cpp" />
     <ClCompile Include="Gladiator.cpp" />
+    <ClCompile Include="Law.cpp" />
+    <ClCompile Include="LudusMagnus.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuSystem.cpp" />
     <ClCompile Include="OptionMenu.cpp" />
+    <ClCompile Include="Platform.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Region.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Vendor.cpp" />
     <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -87,12 +95,14 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="GameSystem.h" />
+    <ClInclude Include="Law.h" />
     <ClInclude Include="LudusMagnus.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuSystem.h" />
     <ClInclude Include="OptionMenu.h" />
     <ClInclude Include="Platform.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Region.h" />
     <ClInclude Include="Slider.h" />
     <ClInclude Include="Texture.h" />

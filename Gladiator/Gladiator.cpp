@@ -1,8 +1,8 @@
-#include "MenuSystem.h"
-#include "GameSystem.h"
 #include <stdio.h>
 #include <windows.h>
 #include <iostream>
+#include "MenuSystem.h"
+#include "GameSystem.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 1600;
@@ -30,8 +30,11 @@ void init() {
 	//Initialize SDL
 	SDL_Init(SDL_INIT_VIDEO);
 
+	SDL_DisplayMode *disp = new SDL_DisplayMode();
+	SDL_GetCurrentDisplayMode(0, disp);
+
 	//Create window
-	gWindow = SDL_CreateWindow("Glatiator Pre-Alpha 0.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+	gWindow = SDL_CreateWindow("Glatiator Pre-Alpha 0.0", 10, 37, disp->w-20, disp->h-92, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 	//Create vsynced renderer for window
 	renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -53,7 +56,7 @@ int main(int argc, char* args[]) {
 	init();
 
 	MenuSystem menus = MenuSystem(renderer);
-	GameSystem game = GameSystem();
+	GameSystem game = GameSystem(renderer);
 
 	//Main loop flag
 	bool quit = false;
@@ -73,6 +76,7 @@ int main(int argc, char* args[]) {
 			{
 				quit = true;
 			}
+			menus.update(&e);
 		}
 
 		menus.update(&e);

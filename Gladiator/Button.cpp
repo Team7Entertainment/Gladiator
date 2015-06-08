@@ -13,7 +13,7 @@ Button::Button(int w, int h, int offset): Widget() {
 
 	for (int i = 0; i < BUTTON_SPRITE_TOTAL; i++) {
 		sprites[i].x = offset;
-		sprites[i].y = i * height;
+		sprites[i].y = i * (height + 1);
 		sprites[i].w = width;
 		sprites[i].h = height;
 	}
@@ -26,7 +26,7 @@ Button::Button(int w, int h, int offset, int x, int y): Widget(x, y) {
 
 	for (int i = 0; i < BUTTON_SPRITE_TOTAL; i++) {
 		sprites[i].x = offset;
-		sprites[i].y = i * height;
+		sprites[i].y = i * (height + 1);
 		sprites[i].w = width;
 		sprites[i].h = height;
 	}
